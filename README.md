@@ -61,6 +61,8 @@ Use these values when creating the service in the Leapcell dashboard:
 - Start Command: `./app`
 - Port: `8080`
 
+If you prefer to deploy with a Docker image instead of Leapcell's Go build flow, this repo now includes a production-ready `Dockerfile`.
+
 Set these environment variables in the Leapcell service settings:
 
 - `OPENWEATHER_API_KEY` required
@@ -74,3 +76,4 @@ Deployment notes:
 - The service filesystem is effectively read-only except for `/tmp`, which is fine for this API because it is stateless.
 - Do not rely on local `.env` files in production. Configure secrets in the Leapcell dashboard instead.
 - If the build still fails, open the detailed build log and look for the first `go` error line, not just the final `failed to build image` summary.
+- If Leapcell keeps using an old build command, switch to Docker deployment or set the build command explicitly to `go build -o myappbin ./cmd/api`.
