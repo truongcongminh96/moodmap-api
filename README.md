@@ -56,7 +56,8 @@ The current app shape works well on Leapcell as a Go service.
 Use these values when creating the service in the Leapcell dashboard:
 
 - Runtime: `Go`
-- Build Command: `go mod tidy && go build -tags netgo -ldflags '-s -w' -o app ./cmd/api`
+- Root Directory: repository root
+- Build Command: `sh ./scripts/leapcell-build.sh`
 - Start Command: `./app`
 - Port: `8080`
 
@@ -72,3 +73,4 @@ Deployment notes:
 - Leapcell serverless startup polls `/kaithhealth`, so this repo exposes that endpoint.
 - The service filesystem is effectively read-only except for `/tmp`, which is fine for this API because it is stateless.
 - Do not rely on local `.env` files in production. Configure secrets in the Leapcell dashboard instead.
+- If the build still fails, open the detailed build log and look for the first `go` error line, not just the final `failed to build image` summary.
