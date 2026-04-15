@@ -11,7 +11,7 @@ func activitiesForMood(moodKey string) []string {
 	case "energetic_bright":
 		return []string{
 			"Take a sunny outdoor walk",
-			"Do a quick workout or stretch session",
+			"Try a quick energizing workout",
 			"Capture a few bright photos around the city",
 		}
 	case "calm_soft":

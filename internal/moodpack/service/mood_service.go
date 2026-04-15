@@ -58,7 +58,7 @@ func (s *MoodService) GetMoodPack(ctx context.Context, input domain.GetMoodPackI
 		RequestedAt: time.Now().UTC(),
 		Sources:     []string{"openweather"},
 	}
-	pack.Summary = buildSummary(pack.Location.City, pack.Weather.Description, pack.Mood.Label, pack.Activities)
+	pack.Summary = buildSummary(pack.Location.City, pack.Weather.Description, pack.Mood)
 
 	switch normalizedInput.Source {
 	case domain.ContentSourceQuotes:
@@ -122,19 +122,51 @@ func normalizeInput(input domain.GetMoodPackInput) (domain.GetMoodPackInput, err
 	return input, nil
 }
 
-func buildSummary(city, weatherDescription, moodLabel string, activities []string) string {
-	activityPhrase := "to take a mindful pause"
-	if len(activities) > 0 {
-		activityPhrase = "to " + strings.ToLower(activities[0])
+func buildSummary(city, weatherDescription string, mood domain.Mood) string {
+	switch mood.Key {
+	case "energetic_bright":
+		return fmt.Sprintf(
+			"%s today feels energetic and bright under %s. It is a great day to get outside, move your body, and enjoy the sunlight.",
+			city,
+			addArticle(weatherDescription),
+		)
+	case "chill_reflective":
+		return fmt.Sprintf(
+			"%s today feels calm and reflective with %s. It is a lovely day to slow down, sip something warm, and spend a little time with your thoughts.",
+			city,
+			addArticle(weatherDescription),
+		)
+	case "calm_soft":
+		return fmt.Sprintf(
+			"%s today feels soft and balanced with %s. It is a nice day to read, plan gently, and ease into your rhythm.",
+			city,
+			addArticle(weatherDescription),
+		)
+	case "intense_moody":
+		return fmt.Sprintf(
+			"%s today feels intense and moody with %s. It is a strong day for deep focus, creative work, and staying tucked into your own flow.",
+			city,
+			addArticle(weatherDescription),
+		)
+	case "cozy_gentle":
+		return fmt.Sprintf(
+			"%s today feels cozy and gentle with %s. It is a perfect day to stay comfortable, play soft music, and recharge indoors.",
+			city,
+			addArticle(weatherDescription),
+		)
+	case "dreamy_quiet":
+		return fmt.Sprintf(
+			"%s today feels dreamy and quiet with %s. It is a good day to wander slowly, think deeply, and keep things light.",
+			city,
+			addArticle(weatherDescription),
+		)
+	default:
+		return fmt.Sprintf(
+			"%s today feels balanced with %s. It is a good day to take a mindful pause and choose a steady pace.",
+			city,
+			addArticle(weatherDescription),
+		)
 	}
-
-	return fmt.Sprintf(
-		"%s today feels %s with %s. A good day %s.",
-		city,
-		strings.ToLower(moodLabel),
-		weatherDescription,
-		activityPhrase,
-	)
 }
 
 func titleCase(value string) string {
@@ -148,4 +180,25 @@ func titleCase(value string) string {
 	}
 
 	return strings.Join(parts, " ")
+}
+
+func addArticle(description string) string {
+	description = strings.TrimSpace(strings.ToLower(description))
+	if description == "" {
+		return "the current weather"
+	}
+
+	if strings.HasPrefix(description, "a ") || strings.HasPrefix(description, "an ") || strings.HasPrefix(description, "the ") {
+		return description
+	}
+
+	if strings.HasSuffix(description, "s") {
+		return description
+	}
+
+	if strings.ContainsRune("aeiou", rune(description[0])) {
+		return "an " + description
+	}
+
+	return "a " + description
 }

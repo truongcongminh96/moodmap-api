@@ -55,9 +55,10 @@ func (c *Client) GetRecommendations(ctx context.Context, mood domain.Mood) ([]do
 		}
 
 		tracks = append(tracks, domain.MusicTrack{
-			Title:  item.Title,
-			Artist: item.Artist.Name,
-			URL:    item.Link,
+			Title:    item.Title,
+			Artist:   item.Artist.Name,
+			TrackURL: item.Link,
+			Source:   "deezer",
 		})
 
 		if len(tracks) == 5 {

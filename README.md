@@ -28,6 +28,13 @@ If a local `.env` file exists, the app now auto-loads it on startup for local de
 curl "http://localhost:8080/api/v1/mood-pack?city=Hanoi&source=all"
 ```
 
+Health checks:
+
+```bash
+curl "http://localhost:8080/kaithhealth"
+curl "http://localhost:8080/healthz"
+```
+
 Supported query params:
 
 - `city` required
@@ -41,3 +48,27 @@ Supported query params:
 - `source=quotes` and `source=music` return provider errors if the requested provider fails.
 - Weather-to-mood mapping and activity suggestions live in backend business logic.
 - Deezer search is used directly for the music MVP, so no extra music API key is required.
+
+## Deploy To Leapcell
+
+The current app shape works well on Leapcell as a Go service.
+
+Use these values when creating the service in the Leapcell dashboard:
+
+- Runtime: `Go`
+- Build Command: `go mod tidy && go build -tags netgo -ldflags '-s -w' -o app ./cmd/api`
+- Start Command: `./app`
+- Port: `8080`
+
+Set these environment variables in the Leapcell service settings:
+
+- `OPENWEATHER_API_KEY` required
+- `OPENWEATHER_BASE_URL=https://api.openweathermap.org/data/2.5`
+- `ZENQUOTES_BASE_URL=https://zenquotes.io/api`
+- `DEEZER_BASE_URL=https://api.deezer.com`
+
+Deployment notes:
+
+- Leapcell serverless startup polls `/kaithhealth`, so this repo exposes that endpoint.
+- The service filesystem is effectively read-only except for `/tmp`, which is fine for this API because it is stateless.
+- Do not rely on local `.env` files in production. Configure secrets in the Leapcell dashboard instead.

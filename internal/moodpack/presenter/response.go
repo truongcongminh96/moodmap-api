@@ -15,7 +15,7 @@ type MoodPackResponse struct {
 
 type Meta struct {
 	RequestedAt time.Time `json:"requestedAt"`
-	Source      []string  `json:"source"`
+	Sources     []string  `json:"sources"`
 }
 
 type ErrorPayload struct {
@@ -29,7 +29,7 @@ func Success(pack *domain.MoodPack) MoodPackResponse {
 		Data:    pack,
 		Meta: &Meta{
 			RequestedAt: pack.RequestedAt,
-			Source:      pack.Sources,
+			Sources:     pack.Sources,
 		},
 	}
 }

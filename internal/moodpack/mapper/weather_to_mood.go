@@ -8,15 +8,15 @@ import (
 )
 
 var moodByWeather = map[string]domain.Mood{
-	"RAIN":         {Key: "chill_reflective", Label: "Chill & Reflective", Theme: "rainy-blue"},
-	"CLEAR":        {Key: "energetic_bright", Label: "Energetic & Bright", Theme: "sunny-gold"},
-	"CLOUDS":       {Key: "calm_soft", Label: "Calm & Soft", Theme: "cloudy-silver"},
-	"THUNDERSTORM": {Key: "intense_moody", Label: "Intense & Moody", Theme: "storm-indigo"},
-	"DRIZZLE":      {Key: "cozy_gentle", Label: "Cozy & Gentle", Theme: "misty-latte"},
-	"MIST":         {Key: "dreamy_quiet", Label: "Dreamy & Quiet", Theme: "fog-lilac"},
-	"FOG":          {Key: "dreamy_quiet", Label: "Dreamy & Quiet", Theme: "fog-lilac"},
-	"HAZE":         {Key: "dreamy_quiet", Label: "Dreamy & Quiet", Theme: "fog-lilac"},
-	"SMOKE":        {Key: "dreamy_quiet", Label: "Dreamy & Quiet", Theme: "fog-lilac"},
+	"RAIN":         {Key: "chill_reflective", Label: "Chill & Reflective", Theme: "rainy-blue", Confidence: 0.91},
+	"CLEAR":        {Key: "energetic_bright", Label: "Energetic & Bright", Theme: "sunny-gold", Confidence: 0.89},
+	"CLOUDS":       {Key: "calm_soft", Label: "Calm & Soft", Theme: "cloudy-silver", Confidence: 0.84},
+	"THUNDERSTORM": {Key: "intense_moody", Label: "Intense & Moody", Theme: "storm-indigo", Confidence: 0.93},
+	"DRIZZLE":      {Key: "cozy_gentle", Label: "Cozy & Gentle", Theme: "misty-latte", Confidence: 0.87},
+	"MIST":         {Key: "dreamy_quiet", Label: "Dreamy & Quiet", Theme: "fog-lilac", Confidence: 0.82},
+	"FOG":          {Key: "dreamy_quiet", Label: "Dreamy & Quiet", Theme: "fog-lilac", Confidence: 0.82},
+	"HAZE":         {Key: "dreamy_quiet", Label: "Dreamy & Quiet", Theme: "fog-lilac", Confidence: 0.8},
+	"SMOKE":        {Key: "dreamy_quiet", Label: "Dreamy & Quiet", Theme: "fog-lilac", Confidence: 0.78},
 }
 
 func ResolveMood(weatherMain string) (domain.Mood, error) {
@@ -30,8 +30,9 @@ func ResolveMood(weatherMain string) (domain.Mood, error) {
 	}
 
 	return domain.Mood{
-		Key:   "balanced_neutral",
-		Label: "Balanced & Neutral",
-		Theme: "soft-neutral",
+		Key:        "balanced_neutral",
+		Label:      "Balanced & Neutral",
+		Theme:      "soft-neutral",
+		Confidence: 0.64,
 	}, nil
 }

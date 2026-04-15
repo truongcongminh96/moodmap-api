@@ -39,9 +39,10 @@ type Weather struct {
 }
 
 type Mood struct {
-	Key   string `json:"key"`
-	Label string `json:"label"`
-	Theme string `json:"theme"`
+	Key        string  `json:"key"`
+	Label      string  `json:"label"`
+	Theme      string  `json:"theme"`
+	Confidence float64 `json:"confidence"`
 }
 
 type Quote struct {
@@ -50,9 +51,10 @@ type Quote struct {
 }
 
 type MusicTrack struct {
-	Title  string `json:"title"`
-	Artist string `json:"artist"`
-	URL    string `json:"url,omitempty"`
+	Title    string `json:"title"`
+	Artist   string `json:"artist"`
+	TrackURL string `json:"trackUrl,omitempty"`
+	Source   string `json:"source"`
 }
 
 type MoodPack struct {

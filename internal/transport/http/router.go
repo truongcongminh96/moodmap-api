@@ -22,6 +22,8 @@ func NewRouter(cfg config.Config) http.Handler {
 	moodHandler := moodhttp.NewMoodHandler(moodService)
 
 	mux := http.NewServeMux()
+	mux.HandleFunc("/kaithhealth", HealthCheck)
+	mux.HandleFunc("/healthz", HealthCheck)
 	mux.HandleFunc("/api/v1/mood-pack", moodHandler.GetMoodPack)
 
 	return mux
